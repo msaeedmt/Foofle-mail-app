@@ -1,18 +1,22 @@
 package GUI.MainApp;
 
+import Logic.SQL;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class UserForm extends JFrame {
+    private SQL sql;
     private Navbar navbar;
     private ToolBox toolBox;
     private DisplayPanel displayPanel;
     private String username;
 
-    public UserForm(String username) throws HeadlessException {
+    public UserForm(SQL sql,String username) throws HeadlessException {
         super();
+        this.sql=sql;
         this.username = username;
-        navbar = new Navbar(this);
+        navbar = new Navbar(getSql(),this);
         toolBox=new ToolBox(this);
         displayPanel=new DisplayPanel();
         setTitle(getUsername());
@@ -32,5 +36,9 @@ public class UserForm extends JFrame {
 
     public DisplayPanel getDisplayPanel() {
         return displayPanel;
+    }
+
+    public SQL getSql() {
+        return sql;
     }
 }

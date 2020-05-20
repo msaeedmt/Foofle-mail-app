@@ -1,6 +1,7 @@
 package GUI.Authentication;
 
 import GUI.Authentication.Form;
+import Logic.SQL;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ public class LoginPage extends JPanel {
     private JButton signIn;
     private JButton signUp;
 
-    public LoginPage(Form form ) {
+    public LoginPage(SQL sql, Form form ) {
         this.form=form;
 
         GridLayout gridLayout = new GridLayout(1, 3);

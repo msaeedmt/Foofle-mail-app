@@ -1,14 +1,16 @@
 package GUI.Authentication;
 
-import GUI.Authentication.Form;
 import GUI.MainApp.UserForm;
+import Logic.SQL;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class SignUp extends JPanel implements ActionListener {
+    private SQL sql;
     private Form form;
     private JLabel title = new JLabel("Sign up Foofle");
     private JButton home = new JButton("home");
@@ -18,12 +20,13 @@ public class SignUp extends JPanel implements ActionListener {
     private JTextField phoneField = new JTextField();
     private JTextField userTextField = new JTextField();
     private JPasswordField passwordField = new JPasswordField();
-    private JButton loginButton = new JButton("REGISTER");
+    private JButton registerButton = new JButton("REGISTER");
     private JButton resetButton = new JButton("RESET");
     private JCheckBox showPassword = new JCheckBox("Show Password");
 
 
-    SignUp(Form form) {
+    SignUp(SQL sql, Form form) {
+        this.sql=sql;
         this.form = form;
         setLayoutManager();
         setLocationAndSize();
@@ -49,7 +52,7 @@ public class SignUp extends JPanel implements ActionListener {
         passwordField.setBounds(150, 200, 150, 30);
         phoneField.setBounds(150, 250, 150, 30);
         showPassword.setBounds(150, 290, 150, 30);
-        loginButton.setBounds(50, 330, 100, 30);
+        registerButton.setBounds(50, 330, 100, 30);
         resetButton.setBounds(200, 330, 100, 30);
     }
 
@@ -63,12 +66,12 @@ public class SignUp extends JPanel implements ActionListener {
         add(passwordField);
         add(phoneField);
         add(showPassword);
-        add(loginButton);
+        add(registerButton);
         add(resetButton);
     }
 
     public void addActionEvent() {
-//        loginButton.addActionListener(this);
+        registerButton.addActionListener(this);
         resetButton.addActionListener(this);
         showPassword.addActionListener(this);
         home.addActionListener(this);
@@ -91,13 +94,22 @@ public class SignUp extends JPanel implements ActionListener {
         if (e.getSource() == home) {
             getForm().setLoginPage();
         }
-        if (e.getSource() == loginButton) {
-            new UserForm(userTextField.getText());
-            getForm().dispose();
+        if (e.getSource() == registerButton) {
+            try {
+                getSql().addUser(userTextField.getText(),"123");
+                new UserForm(getSql(),userTextField.getText());
+                getForm().dispose();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     public Form getForm() {
         return form;
+    }
+
+    public SQL getSql() {
+        return sql;
     }
 }

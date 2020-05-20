@@ -1,9 +1,12 @@
 package Controller;
 
-import GUI.MainApp.UserForm;
+import GUI.Authentication.Form;
+import Logic.SQL;
 
 public class Main {
     public static void main(String[] args) {
-        new UserForm("saeed");
+        SQL sql = new SQL();
+        new Form(sql);
+//        new UserForm("saeed");
     }
 }

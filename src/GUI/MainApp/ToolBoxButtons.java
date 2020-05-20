@@ -41,9 +41,11 @@ public class ToolBoxButtons extends JPanel implements ActionListener {
         add(customizeButton(edit));
     }
 
-    public void addActionListeners(){
+    public void addActionListeners() {
         edit.addActionListener(this::actionPerformed);
         news.addActionListener(this);
+        inbox.addActionListener(this);
+        sent.addActionListener(this);
     }
 
     JButton customizeButton(JButton button) {
@@ -59,8 +61,14 @@ public class ToolBoxButtons extends JPanel implements ActionListener {
         if (e.getSource() == edit) {
             getToolBox().getUserForm().getDisplayPanel().setPersonalInfo();
         }
-        if (e.getSource()==news){
+        if (e.getSource() == news) {
             getToolBox().getUserForm().getDisplayPanel().setNewsScene();
+        }
+        if (e.getSource() == inbox) {
+            getToolBox().getUserForm().getDisplayPanel().setInboxScene();
+        }
+        if (e.getSource() == sent) {
+            getToolBox().getUserForm().getDisplayPanel().setSentMailScene();
         }
     }
 

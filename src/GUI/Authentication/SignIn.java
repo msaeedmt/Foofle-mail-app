@@ -2,6 +2,7 @@ package GUI.Authentication;
 
 import GUI.Authentication.Form;
 import GUI.MainApp.UserForm;
+import Logic.SQL;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SignIn extends JPanel implements ActionListener {
+    private SQL sql;
     private Form form;
     private JLabel title = new JLabel("Sign in Foofle");
     private JButton home = new JButton("home");
@@ -21,7 +23,7 @@ public class SignIn extends JPanel implements ActionListener {
     private JCheckBox showPassword = new JCheckBox("Show Password");
 
 
-    SignIn(Form form) {
+    SignIn(SQL sql, Form form) {
         this.form = form;
         setLayoutManager();
         setLocationAndSize();
@@ -85,12 +87,16 @@ public class SignIn extends JPanel implements ActionListener {
             getForm().setLoginPage();
         }
         if (e.getSource()==loginButton){
-            new UserForm(userTextField.getText());
+            new UserForm(getSql(),userTextField.getText());
             getForm().dispose();
         }
     }
 
     public Form getForm() {
         return form;
+    }
+
+    public SQL getSql() {
+        return sql;
     }
 }
