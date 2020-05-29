@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.ResultSet;
 
 public class SignIn extends JPanel implements ActionListener {
     private SQL sql;
@@ -25,6 +28,7 @@ public class SignIn extends JPanel implements ActionListener {
 
     SignIn(SQL sql, Form form) {
         this.form = form;
+        this.sql = sql;
         setLayoutManager();
         setLocationAndSize();
         addComponentsToContainer();
@@ -86,9 +90,24 @@ public class SignIn extends JPanel implements ActionListener {
         if (e.getSource() == home) {
             getForm().setLoginPage();
         }
-        if (e.getSource()==loginButton){
-            new UserForm(getSql(),userTextField.getText());
-            getForm().dispose();
+        if (e.getSource() == loginButton) {
+            try {
+                ResultSet resultset = getSql().findUser(userTextField.getText(), "123");
+                String logedInUser = "";
+                while (resultset.next()) {
+                    if (resultset.getString("username") != null) {
+                        logedInUser = resultset.getString("username");
+                        getSql().login(logedInUser);
+                        getForm().dispose();
+                        new UserForm(getSql(), logedInUser).getDisplayPanel().setNewsScene();
+                    }
+                }
+            } catch (SQLException error) {
+                System.out.println(error.getMessage());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
         }
     }
 

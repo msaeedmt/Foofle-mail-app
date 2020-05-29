@@ -4,6 +4,7 @@ import Logic.SQL;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class UserForm extends JFrame {
     private SQL sql;
@@ -12,18 +13,18 @@ public class UserForm extends JFrame {
     private DisplayPanel displayPanel;
     private String username;
 
-    public UserForm(SQL sql,String username) throws HeadlessException {
+    public UserForm(SQL sql,String username) throws HeadlessException, IOException {
         super();
         this.sql=sql;
         this.username = username;
         navbar = new Navbar(getSql(),this);
-        toolBox=new ToolBox(this);
-        displayPanel=new DisplayPanel();
+        toolBox=new ToolBox(this,getSql());
+        displayPanel=new DisplayPanel(getSql(),getUsername());
         setTitle(getUsername());
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        setSize(700, 500);
+        setSize(750, 660);
 
         add(displayPanel,BorderLayout.CENTER);
         add(toolBox,BorderLayout.WEST);

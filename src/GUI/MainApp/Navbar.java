@@ -1,11 +1,16 @@
 package GUI.MainApp;
 
 import GUI.Authentication.Form;
+import GUI.InfosForm.InfosForm;
+import GUI.MainApp.utils.AddIcon;
 import Logic.SQL;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Navbar extends JPanel implements KeyListener, MouseListener {
     private SQL sql;
@@ -14,10 +19,9 @@ public class Navbar extends JPanel implements KeyListener, MouseListener {
     private JLabel title = new JLabel("Foofle");
     private JPanel infoPanel = new JPanel();
 
-    Navbar(SQL sql,UserForm userForm) {
+    Navbar(SQL sql, UserForm userForm) throws IOException {
         this.userForm = userForm;
-        this.sql=sql;
-        System.out.println(userForm.getUsername());
+        this.sql = sql;
         setLayoutManager();
         setLocationAndSize();
         addComponentsToContainer();
@@ -31,11 +35,12 @@ public class Navbar extends JPanel implements KeyListener, MouseListener {
     public void setLocationAndSize() {
         searchBar.setPreferredSize(new Dimension(150, 30));
         title.setHorizontalAlignment(JLabel.CENTER);
-        title.setFont(new Font("font1", 2, 30));
+        title.setFont(new Font("font1", 1, 30));
+        title.setBackground(Color.WHITE);
         infoPanel.setPreferredSize(new Dimension(100, 30));
     }
 
-    public void addComponentsToContainer() {
+    public void addComponentsToContainer() throws IOException {
         makingTheMenu();
         add(searchBar, BorderLayout.WEST);
         add(title, BorderLayout.CENTER);
@@ -47,7 +52,8 @@ public class Navbar extends JPanel implements KeyListener, MouseListener {
         searchBar.addMouseListener(this);
     }
 
-    void makingTheMenu() {
+
+    void makingTheMenu() throws IOException {
 //        JMenuBar menuBar=new JMenuBar();
 //        JMenu menu=new JMenu(getUserForm().getName());
 //        JPopupMenu popupMenu = new JPopupMenu("esrger");
@@ -57,9 +63,10 @@ public class Navbar extends JPanel implements KeyListener, MouseListener {
 //        infoPanel.add(menuBar);
 //        popupMenu.add(logout);
         JLabel label = new JLabel(getUserForm().getUsername());
-        JButton logout = new JButton("out");
-        logout.setPreferredSize(new Dimension(20, 30));
-        label.setFont(new Font("font2", Font.ITALIC, 15));
+        JButton logout = new JButton();
+        new AddIcon().createIcon(logout, "logout.jpg", 30, 30);
+        logout.setPreferredSize(new Dimension(30, 30));
+        label.setFont(new Font("font2", Font.BOLD, 20));
 
         logout.addActionListener(new ActionListener() {
             @Override
@@ -87,7 +94,20 @@ public class Navbar extends JPanel implements KeyListener, MouseListener {
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
             String username = searchBar.getText();
-            System.out.println(username);
+            try {
+                ResultSet resultSet = getSql().getOtherInfos(username, getUserForm().getUsername());
+                while (resultSet.next()){
+                    new InfosForm(getSql(),getUserForm().getUsername()).setDetailes(resultSet.getString("userName"),
+                            resultSet.getString("lastName"),
+                            resultSet.getString("nickName"),
+                            resultSet.getString("birthday"),
+                            resultSet.getString("phone"),
+                            resultSet.getString("codeMeli"),
+                            resultSet.getString("address"));
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 

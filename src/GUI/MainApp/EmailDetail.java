@@ -65,4 +65,27 @@ public class EmailDetail extends JFrame {
     public String getUsername() {
         return username;
     }
+
+    public void setDatas(String receiversField,String CCReceiversField,String subjectField,String contentField){
+        setReceiversField(receiversField);
+        setCCReceiversField(CCReceiversField);
+        setSubjectField(subjectField);
+        setContentField(contentField);
+    }
+
+    public void setReceiversField(String receiversField) {
+        this.receiversField.setText(receiversField);
+    }
+
+    public void setCCReceiversField(String CCReceiversField) {
+        this.CCReceiversField.setText(CCReceiversField);
+    }
+
+    public void setSubjectField(String subjectField) {
+        this.subjectField.setText(subjectField);
+    }
+
+    public void setContentField(String contentField) {
+        this.contentField.setText(contentField);
+    }
 }

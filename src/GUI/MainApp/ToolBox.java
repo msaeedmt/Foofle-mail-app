@@ -2,19 +2,23 @@ package GUI.MainApp;
 
 import GUI.MailForm.MailForm;
 import GUI.MainApp.UserForm;
+import Logic.SQL;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ToolBox extends JPanel {
+    private SQL sql=null;
     private UserForm userForm;
     private ToolBoxButtons toolBoxButtons;
     private JPanel composeButtonPanel;
     private JPanel whiteSpace =new JPanel();
 
-    public ToolBox(UserForm userForm) {
+    public ToolBox(UserForm userForm, SQL sql) {
+        this.sql=sql;
         this.userForm=userForm;
         toolBoxButtons=new ToolBoxButtons(this);
         composeButtonPanel=new JPanel();
@@ -38,7 +42,11 @@ public class ToolBox extends JPanel {
         compose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new MailForm(getUserForm().getUsername());
+                try {
+                    new MailForm(getSql(),getUserForm().getUsername());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -60,5 +68,9 @@ public class ToolBox extends JPanel {
 
     public UserForm getUserForm() {
         return userForm;
+    }
+
+    public SQL getSql() {
+        return sql;
     }
 }

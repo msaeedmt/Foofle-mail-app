@@ -7,11 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SignUp extends JPanel implements ActionListener {
     private SQL sql;
     private Form form;
+    private String username = "";
     private JLabel title = new JLabel("Sign up Foofle");
     private JButton home = new JButton("home");
     private JLabel userLabel = new JLabel("USERNAME");
@@ -26,7 +29,7 @@ public class SignUp extends JPanel implements ActionListener {
 
 
     SignUp(SQL sql, Form form) {
-        this.sql=sql;
+        this.sql = sql;
         this.form = form;
         setLayoutManager();
         setLocationAndSize();
@@ -96,14 +99,22 @@ public class SignUp extends JPanel implements ActionListener {
         }
         if (e.getSource() == registerButton) {
             try {
-                getSql().addUser(userTextField.getText(),"123");
-                new UserForm(getSql(),userTextField.getText());
+                username = userTextField.getText();
+                getSql().addUser(username, "123", phoneField.getText());
+                getSql().addInfoToUser(username);
+                new UserForm(getSql(), userTextField.getText()).getDisplayPanel().setNewsScene();
                 getForm().dispose();
-            } catch (SQLException ex) {
+            } catch (SQLException error) {
+                while (error != null) {
+                    System.out.println(error.getMessage());
+                    error = error.getNextException();
+                }
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
     }
+
 
     public Form getForm() {
         return form;

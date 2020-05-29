@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class ToolBoxButtons extends JPanel implements ActionListener {
     private ToolBox toolBox = null;
@@ -59,16 +61,32 @@ public class ToolBoxButtons extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == edit) {
-            getToolBox().getUserForm().getDisplayPanel().setPersonalInfo();
+            try {
+                getToolBox().getUserForm().getDisplayPanel().setPersonalInfo();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         if (e.getSource() == news) {
-            getToolBox().getUserForm().getDisplayPanel().setNewsScene();
+            try {
+                getToolBox().getUserForm().getDisplayPanel().setNewsScene();
+            } catch (IOException | SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         if (e.getSource() == inbox) {
-            getToolBox().getUserForm().getDisplayPanel().setInboxScene();
+            try {
+                getToolBox().getUserForm().getDisplayPanel().setInboxScene();
+            } catch (IOException | SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         if (e.getSource() == sent) {
-            getToolBox().getUserForm().getDisplayPanel().setSentMailScene();
+            try {
+                getToolBox().getUserForm().getDisplayPanel().setSentMailScene();
+            } catch (IOException | SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
