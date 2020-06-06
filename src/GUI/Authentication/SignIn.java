@@ -92,7 +92,8 @@ public class SignIn extends JPanel implements ActionListener {
         }
         if (e.getSource() == loginButton) {
             try {
-                ResultSet resultset = getSql().findUser(userTextField.getText(), "123");
+                String passwordStr=new String(passwordField.getPassword());
+                ResultSet resultset = getSql().findUser(userTextField.getText(), passwordStr);
                 String logedInUser = "";
                 while (resultset.next()) {
                     if (resultset.getString("username") != null) {

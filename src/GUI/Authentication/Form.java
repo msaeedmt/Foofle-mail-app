@@ -19,7 +19,6 @@ public class Form extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setSize(400, 500);
-//        pack();
         setLoginPage();
     }
 

@@ -144,7 +144,6 @@ public class Navbar extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-
     }
 
     public SQL getSql() {

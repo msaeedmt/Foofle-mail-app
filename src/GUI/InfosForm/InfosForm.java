@@ -24,17 +24,13 @@ public class InfosForm extends JFrame {
     private JTextField codeMeliField = new JTextField();
     private JLabel address = new JLabel("Address");
     private JTextField addressField = new JTextField();
-    private JLabel password = new JLabel("Password");
-    private JTextField passwordFeild = new JTextField();
-    private JLabel signUpPhone = new JLabel("signUpPhone");
-    private JTextField signUpPhoneField = new JTextField();
 
 
     public InfosForm(SQL sql, String username) {
         this.sql = sql;
         this.username = username;
         setVisible(true);
-        setSize(600, 600);
+        setSize(600, 430);
         setLayout(null);
         setLocationAndSize();
         addComponentsToContainer();
@@ -55,10 +51,6 @@ public class InfosForm extends JFrame {
         codeMeliField.setBounds(130, 280, 420, 30);
         address.setBounds(30, 330, 100, 30);
         addressField.setBounds(130, 330, 420, 30);
-        password.setBounds(30, 380, 100, 30);
-        passwordFeild.setBounds(130, 380, 420, 30);
-        signUpPhone.setBounds(30, 430, 100, 30);
-        signUpPhoneField.setBounds(130, 430, 420, 30);
     }
 
     public void addComponentsToContainer() {
@@ -76,10 +68,6 @@ public class InfosForm extends JFrame {
         add(codeMeliField);
         add(address);
         add(addressField);
-        add(password);
-        add(passwordFeild);
-        add(signUpPhone);
-        add(signUpPhoneField);
     }
 
 
